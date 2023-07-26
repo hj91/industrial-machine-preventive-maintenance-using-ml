@@ -1,0 +1,202 @@
+[
+    {
+        "id": "75b09ae05d848249",
+        "type": "tab",
+        "label": "only Pulse count",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b0ac1b94d7af1816",
+        "type": "modbus-read",
+        "z": "75b09ae05d848249",
+        "name": "SDM 120 Voltage",
+        "topic": "",
+        "showStatusActivities": true,
+        "logIOActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "InputRegister",
+        "adr": "0",
+        "quantity": "2",
+        "rate": "5",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "b69d19ed.84d768",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "2f869d8a69d26e61"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "2f869d8a69d26e61",
+        "type": "energy-meter",
+        "z": "75b09ae05d848249",
+        "name": "",
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "aa97cf7cd911d743"
+            ]
+        ]
+    },
+    {
+        "id": "aa97cf7cd911d743",
+        "type": "spiker",
+        "z": "75b09ae05d848249",
+        "name": "Spike Counter",
+        "machineName": "Machine1",
+        "parameter": "Voltage",
+        "windowSize": "5",
+        "scalingFactor": 3,
+        "x": 540,
+        "y": 200,
+        "wires": [
+            [
+                "de395f6342252978"
+            ]
+        ]
+    },
+    {
+        "id": "de395f6342252978",
+        "type": "change",
+        "z": "75b09ae05d848249",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"pulse\": msg.payload.pulse}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 200,
+        "wires": [
+            [
+                "60529011cb71fca6"
+            ]
+        ]
+    },
+    {
+        "id": "60529011cb71fca6",
+        "type": "http request",
+        "z": "75b09ae05d848249",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:5001/predict",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 950,
+        "y": 200,
+        "wires": [
+            [
+                "2171bc36c2961876"
+            ]
+        ]
+    },
+    {
+        "id": "2171bc36c2961876",
+        "type": "json",
+        "z": "75b09ae05d848249",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1090,
+        "y": 200,
+        "wires": [
+            [
+                "8167a091bd911a88"
+            ]
+        ]
+    },
+    {
+        "id": "8167a091bd911a88",
+        "type": "function",
+        "z": "75b09ae05d848249",
+        "name": "log prediction",
+        "func": "var a = msg.payload.prediction\n\nmsg.payload = {prediction:Number(a)};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1270,
+        "y": 200,
+        "wires": [
+            [
+                "71c6d6bd546a5134"
+            ]
+        ]
+    },
+    {
+        "id": "71c6d6bd546a5134",
+        "type": "debug",
+        "z": "75b09ae05d848249",
+        "name": "AI Model output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 880,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b69d19ed.84d768",
+        "type": "modbus-client",
+        "name": "Energy Meter",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": true,
+        "queueLogEnabled": false,
+        "failureLogEnabled": false,
+        "tcpHost": "10.10.100.254",
+        "tcpPort": "502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB0",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "",
+        "unit_id": "1",
+        "commandDelay": "30",
+        "clientTimeout": "2000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "5000",
+        "parallelUnitIdsAllowed": false
+    }
+]
