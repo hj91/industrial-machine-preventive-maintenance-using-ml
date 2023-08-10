@@ -1,0 +1,654 @@
+[
+    {
+        "id": "d7cbbbbf528a574e",
+        "type": "tab",
+        "label": "spiker",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f2af9fb7881ba5da",
+        "type": "modbus-read",
+        "z": "d7cbbbbf528a574e",
+        "name": "SDM 120 Voltage",
+        "topic": "",
+        "showStatusActivities": true,
+        "logIOActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "InputRegister",
+        "adr": "0",
+        "quantity": "2",
+        "rate": "5",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "b69d19ed.84d768",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 120,
+        "y": 180,
+        "wires": [
+            [
+                "f074b3a61d32c4d0"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "f074b3a61d32c4d0",
+        "type": "energy-meter",
+        "z": "d7cbbbbf528a574e",
+        "name": "",
+        "x": 350,
+        "y": 180,
+        "wires": [
+            [
+                "5b5cbe0719cf69b0"
+            ]
+        ]
+    },
+    {
+        "id": "5b5cbe0719cf69b0",
+        "type": "spiker",
+        "z": "d7cbbbbf528a574e",
+        "name": "Spike Counter",
+        "machineName": "Machine1",
+        "parameter": "Voltage",
+        "windowSize": "5",
+        "scalingFactor": 3,
+        "x": 560,
+        "y": 180,
+        "wires": [
+            [
+                "9ab6c95b4365b872",
+                "35b84f7aba07a9ad",
+                "deebd29044cf6937",
+                "e7b10ebc0e10f6cc",
+                "e1233c37df7ed32b"
+            ]
+        ]
+    },
+    {
+        "id": "9ab6c95b4365b872",
+        "type": "debug",
+        "z": "d7cbbbbf528a574e",
+        "name": "Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "35b84f7aba07a9ad",
+        "type": "function",
+        "z": "d7cbbbbf528a574e",
+        "name": "Spikes count",
+        "func": "var a = msg.payload.spikes;\nmsg.payload = a;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 260,
+        "wires": [
+            [
+                "bfcd1624e1fe77a3"
+            ]
+        ]
+    },
+    {
+        "id": "bfcd1624e1fe77a3",
+        "type": "debug",
+        "z": "d7cbbbbf528a574e",
+        "name": "Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "813fa6ba2a3706d8",
+        "type": "comment",
+        "z": "d7cbbbbf528a574e",
+        "name": "Detect spikes",
+        "info": "Detect Spikes and log them ",
+        "x": 110,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "deebd29044cf6937",
+        "type": "influxdb out",
+        "z": "d7cbbbbf528a574e",
+        "influxdb": "625a0728a62dc07c",
+        "name": "",
+        "measurement": "voltage",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 880,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "e7b10ebc0e10f6cc",
+        "type": "msg-counter",
+        "z": "d7cbbbbf528a574e",
+        "name": "Bufferstack.IO msg counter",
+        "x": 820,
+        "y": 360,
+        "wires": [
+            [
+                "0901aaf09b81da67"
+            ]
+        ]
+    },
+    {
+        "id": "0901aaf09b81da67",
+        "type": "debug",
+        "z": "d7cbbbbf528a574e",
+        "name": "Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "6c63128f6682e8cd",
+        "type": "modbus-read",
+        "z": "d7cbbbbf528a574e",
+        "name": "SDM 120 Frequency",
+        "topic": "frequency",
+        "showStatusActivities": true,
+        "logIOActivities": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "InputRegister",
+        "adr": "70",
+        "quantity": "2",
+        "rate": "2",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "b69d19ed.84d768",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 130,
+        "y": 460,
+        "wires": [
+            [
+                "ff8d33f571673f4f"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "ff8d33f571673f4f",
+        "type": "energy-meter",
+        "z": "d7cbbbbf528a574e",
+        "name": "",
+        "x": 350,
+        "y": 460,
+        "wires": [
+            [
+                "fc7e316174499684"
+            ]
+        ]
+    },
+    {
+        "id": "fc7e316174499684",
+        "type": "spiker",
+        "z": "d7cbbbbf528a574e",
+        "name": "Spike Counter",
+        "machineName": "Machine1",
+        "parameter": "Frequency",
+        "windowSize": "5",
+        "scalingFactor": 3,
+        "x": 560,
+        "y": 460,
+        "wires": [
+            [
+                "074cfb58b9059123",
+                "0e94a3f77bfc09f5",
+                "3c7526fd88aad9e4"
+            ]
+        ]
+    },
+    {
+        "id": "074cfb58b9059123",
+        "type": "debug",
+        "z": "d7cbbbbf528a574e",
+        "name": "Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 790,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "0e94a3f77bfc09f5",
+        "type": "influxdb out",
+        "z": "d7cbbbbf528a574e",
+        "influxdb": "625a0728a62dc07c",
+        "name": "",
+        "measurement": "frequency",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 910,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "e1233c37df7ed32b",
+        "type": "change",
+        "z": "d7cbbbbf528a574e",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"pulse\": msg.payload.pulse, \"spikes\": msg.payload.spikes}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 800,
+        "y": 120,
+        "wires": [
+            [
+                "f435e7366e3b809a"
+            ]
+        ]
+    },
+    {
+        "id": "f435e7366e3b809a",
+        "type": "http request",
+        "z": "d7cbbbbf528a574e",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:5000/predict",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "credentials": {},
+        "x": 1070,
+        "y": 120,
+        "wires": [
+            [
+                "9e3b86b4999b363b",
+                "df8c7245de81fc39",
+                "88d0c1c03ba626f4"
+            ]
+        ]
+    },
+    {
+        "id": "9e3b86b4999b363b",
+        "type": "debug",
+        "z": "d7cbbbbf528a574e",
+        "name": "AI Model output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "df8c7245de81fc39",
+        "type": "json",
+        "z": "d7cbbbbf528a574e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1290,
+        "y": 200,
+        "wires": [
+            [
+                "ebd0a2bffdfa51e6"
+            ]
+        ]
+    },
+    {
+        "id": "ebd0a2bffdfa51e6",
+        "type": "function",
+        "z": "d7cbbbbf528a574e",
+        "name": "Print prediction",
+        "func": "var a = msg.payload.prediction\n\nmsg.payload = a\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1360,
+        "y": 280,
+        "wires": [
+            [
+                "86b8935acc044b74"
+            ]
+        ]
+    },
+    {
+        "id": "86b8935acc044b74",
+        "type": "debug",
+        "z": "d7cbbbbf528a574e",
+        "name": "AI Model output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1400,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "df833a6b8ca4e401",
+        "type": "influxdb out",
+        "z": "d7cbbbbf528a574e",
+        "influxdb": "625a0728a62dc07c",
+        "name": "",
+        "measurement": "prediction",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1810,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "c52178885b710df0",
+        "type": "debug",
+        "z": "d7cbbbbf528a574e",
+        "name": "AI Model output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1600,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "10379f9df9cdf128",
+        "type": "function",
+        "z": "d7cbbbbf528a574e",
+        "name": "log prediction",
+        "func": "var a = msg.payload.prediction\n\nmsg.payload = {prediction:Number(a)};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1390,
+        "y": 120,
+        "wires": [
+            [
+                "df833a6b8ca4e401",
+                "c52178885b710df0"
+            ]
+        ]
+    },
+    {
+        "id": "88d0c1c03ba626f4",
+        "type": "json",
+        "z": "d7cbbbbf528a574e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1250,
+        "y": 120,
+        "wires": [
+            [
+                "10379f9df9cdf128"
+            ]
+        ]
+    },
+    {
+        "id": "3c7526fd88aad9e4",
+        "type": "change",
+        "z": "d7cbbbbf528a574e",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"pulse\": msg.payload.pulse, \"spikes\": msg.payload.spikes}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 820,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fbae3de2ed76c5b1",
+        "type": "http request",
+        "z": "d7cbbbbf528a574e",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:5000/predict",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1030,
+        "y": 540,
+        "wires": [
+            [
+                "aeab7550706b5251",
+                "1c50745ea8151540"
+            ]
+        ]
+    },
+    {
+        "id": "aeab7550706b5251",
+        "type": "debug",
+        "z": "d7cbbbbf528a574e",
+        "name": "AI Model output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "1c50745ea8151540",
+        "type": "json",
+        "z": "d7cbbbbf528a574e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 1170,
+        "y": 620,
+        "wires": [
+            [
+                "8239973b67e93b5b"
+            ]
+        ]
+    },
+    {
+        "id": "8239973b67e93b5b",
+        "type": "function",
+        "z": "d7cbbbbf528a574e",
+        "name": "log prediction",
+        "func": "var a = msg.payload.prediction\n\nmsg.payload = {prediction:Number(a)};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 620,
+        "wires": [
+            [
+                "e99d58c14b03216c"
+            ]
+        ]
+    },
+    {
+        "id": "e99d58c14b03216c",
+        "type": "influxdb out",
+        "z": "d7cbbbbf528a574e",
+        "influxdb": "625a0728a62dc07c",
+        "name": "",
+        "measurement": "frequency_prediction",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1620,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "b69d19ed.84d768",
+        "type": "modbus-client",
+        "name": "Energy Meter",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": true,
+        "queueLogEnabled": false,
+        "failureLogEnabled": false,
+        "tcpHost": "10.10.100.254",
+        "tcpPort": "502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB0",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "",
+        "unit_id": "1",
+        "commandDelay": "30",
+        "clientTimeout": "2000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "5000",
+        "parallelUnitIdsAllowed": false
+    },
+    {
+        "id": "625a0728a62dc07c",
+        "type": "influxdb",
+        "hostname": "10.10.100.100",
+        "port": "8086",
+        "protocol": "http",
+        "database": "spiker",
+        "name": "",
+        "usetls": false,
+        "tls": "dffcbfae.6e9d",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "dffcbfae.6e9d",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false
+    }
+]
